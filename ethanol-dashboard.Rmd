@@ -6,7 +6,7 @@ knit: (function(input_file, encoding) {
  encoding=encoding,
  output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 author: "Omer Sharif"
-date: "9/14/2021"
+date: "10/18/2021"
 output: 
  rmarkdown::html_document:
   theme: journal
@@ -233,6 +233,13 @@ p
 ```
 
 
+```{r echo=FALSE,out.width='100%'}
+
+knitr::include_graphics('./img/logo_b.jpg')
+
+```
+
+
 ### **Valuewise Trends**
 
 **I. Year wise Data**
@@ -379,6 +386,16 @@ datatable(Main_QtyValuewise,caption="Quantity in Thousand M.Ton | Value in Milli
 ```
 
 
+
+```{r echo=FALSE,out.width='100%'}
+
+knitr::include_graphics('./img/logo_c.jpg')
+
+```
+
+
+
+
 # 2. ANALYSIS BY PRODUCT
 
 * `The major contribution of exports from Pakistan are due to:`
@@ -440,6 +457,14 @@ datatable(Productwise_Summary,options = list(pageLength=5),caption="Quantity in 
 ```
 
 
+```{r echo=FALSE,out.width='100%'}
+
+knitr::include_graphics('./img/logo_d.jpg')
+
+```
+
+
+
 ### **Valuewise Trends**
 
 **a. Year wise Summary**
@@ -491,6 +516,14 @@ p <- p + facet_grid(.~Product) + scale_fill_viridis_d() + guides(fill="none")
 p
 
 ```
+
+
+```{r echo=FALSE,out.width='100%'}
+
+knitr::include_graphics('./img/logo_e.jpg')
+
+```
+
 
 
 # 3. ANALYSIS BY REGION
@@ -561,6 +594,12 @@ Qty_in_MTon  <- Qty_in_MTon %>% pivot_wider(names_from = REGION, values_from = `
 datatable(Qty_in_MTon,options = list(pageLength=5),caption="Quantity in M.Ton (Thousands)")
 ```
 
+
+```{r echo=FALSE,out.width='100%'}
+
+knitr::include_graphics('./img/logo_f.jpg')
+
+```
 
 ### **Valuewise Trends**
 
@@ -634,6 +673,15 @@ p
 [For Price Outlier Details Click Here](https://engromersharif.github.io/regionwiseboxplot/)
 
 
+```{r echo=FALSE,out.width='100%'}
+
+knitr::include_graphics('./img/logo_g.jpg')
+
+```
+
+
+
+
 # 4. COUNTRY WISE ANALYSIS
 
 * `Countries Available For Analysis`
@@ -655,7 +703,8 @@ kable(Country_Investigate[1,1])
 
 **a. Year Wise Summary**
 ```{r,message=FALSE}
-Countrywise_Summary <- Main %>% group_by(Year,COUNTRY) %>% summarise(`Qty in M.Ton (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Ton (Thousands)`))
+Countrywise_Summary <- Main %>% filter(Year==c("2018","2019","2020","2021"))
+Countrywise_Summary <- Countrywise_Summary %>% group_by(Year,COUNTRY) %>% summarise(`Qty in M.Ton (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(Year,desc(`Qty in M.Ton (Thousands)`))
 Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = Year,values_from = `Qty in M.Ton (Thousands)` )
 datatable(Countrywise_Summary,options = list(pageLength=5),caption="Quantity in M.Ton (Thousands)")
 
@@ -679,6 +728,16 @@ Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = REGION,v
 datatable(Countrywise_Summary,options = list(pageLength=5),caption="Quantity in M.Ton (Thousands)")
 ```
 
+
+```{r echo=FALSE,out.width='100%'}
+
+knitr::include_graphics('./img/logo_h.jpg')
+
+```
+
+
+
+
 ### **Valuewise Trends**
 
 * `By Value following has major contribution`
@@ -690,7 +749,8 @@ kable(Country_Investigate[1,1])
 
 **a. Year Wise Summary**
 ```{r,message=FALSE}
-Countrywise_Summary <- Main %>% group_by(Year,COUNTRY) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
+Countrywise_Summary <- Main %>% filter(Year==c("2018","2019","2020","2021"))
+Countrywise_Summary <- Countrywise_Summary %>% group_by(Year,COUNTRY) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(Year,desc(Value))
 Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = Year,values_from = Value )
 datatable(Countrywise_Summary,options = list(pageLength=5),caption="Value in Million USD")
 ```
@@ -728,6 +788,16 @@ p <- p + facet_wrap(~COUNTRY)+guides(fill="none") + scale_color_viridis_d()
 p
 
 ```
+
+
+```{r echo=FALSE,out.width='100%'}
+
+knitr::include_graphics('./img/logo_i.jpg')
+
+```
+
+
+
 
 
 # 5. EXPORTER WISE ANALYSIS
@@ -770,6 +840,16 @@ Main_Qtywise_ExporterType <- Main_Qtywise_ExporterType %>% pivot_wider(names_fro
 Main_Qtywise_ExporterType %>% kbl(caption = "Ethanol Summary by Exporter") %>% kable_classic_2(full_width = F)
 ```
 
+
+```{r echo=FALSE,out.width='100%'}
+
+knitr::include_graphics('./img/logo_j.jpg')
+
+```
+
+
+
+
 ### **Valuewise Trends**
 
 * `By Value following has major contribution`
@@ -800,6 +880,15 @@ Main_Valuewise_ExporterType %>% kbl(caption = "Ethanol Summary by Exporter") %>%
 
 The plot below indicates price ranges of `Exporters` over years.
 [For Price Outlier Details Click Here](https://engromersharif.github.io/exporterwise/)
+
+
+```{r echo=FALSE,out.width='100%'}
+
+knitr::include_graphics('./img/logo_k.jpg')
+
+```
+
+
 
 # 6. IMPORTER WISE ANALYSIS
 
@@ -848,6 +937,14 @@ datatable(Importerwise_Summary,options = list(pageLength=5),caption="Quantity in
 
 ```
 
+
+```{r echo=FALSE,out.width='100%'}
+
+knitr::include_graphics('./img/logo_l.jpg')
+
+```
+
+
 ### **Valuewise Trends**
 
 * `By Value following has major contribution`
@@ -882,6 +979,12 @@ datatable(Importerwise_Summary,options = list(pageLength=5),caption="Value in Mi
 ```
 
 
+```{r echo=FALSE,out.width='100%'}
+
+knitr::include_graphics('./img/logo_m.jpg')
+
+```
+
 
 ### **Importerwise Summary**
 
@@ -898,7 +1001,7 @@ datatable(Importerwise_Summary,options = list(pageLength=5))
 
 ```{r echo=FALSE,out.width='100%'}
 
-knitr::include_graphics('./img/logo_b.jpg')
+knitr::include_graphics('./img/logo_x.jpg')
 
 ```
 
