@@ -54,7 +54,7 @@ This report is computer generated.
 - This method of reporting is not plagued by weaknesses of _Microsoft Excel_ and _Microsoft Access Dashboards._ 
 
 
-- All prices and value of ethanol are in _US Dollar on per metric ton basis indicated as M.Tons (Metric Tons)._ All quantities are in _Metric tons indicated as (M.Tons)._
+- All prices and value of ethanol are in _US Dollar on per metric ton basis indicated as Value in Million USD._ All quantities are in _Metric tons indicated as (M.Tons)._
 
 - [Click Here For Microsoft Excel Dashboard](https://app.box.com/s/fptugum4hq1ue8jqrle4bck3xm6db0xs)
 
