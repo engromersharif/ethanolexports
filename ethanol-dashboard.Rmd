@@ -79,8 +79,7 @@ Storagewise_Summary %>% kbl(caption = "Ethanol Summary by Mode of Shipment") %>%
 ### **Product Wise Summary**
 ```{r,message=FALSE}
 Productwise_Summary <- Main %>% group_by(Product) %>% summarise(`Qty in M.Tons`= format(round(sum(`QTY. (MT)`),2),big.mark=",",digits=2,nsmall=2,scientific=FALSE),`Value in Mil.USD` = format(round(sum(`VALUE ($USD)`)/1000000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE),
-                                                                `Max M.Ton Price` = (round(max(`M.Ton Price`),2)),`Min M.Ton Price` = (round(min(`M.Ton Price`),2)),
-                                                                `Mean M.Ton Price` = (round(mean(`M.Ton Price`),2))) %>% arrange(`Qty in M.Tons`)
+                                                                )
 
 Productwise_Summary %>% kbl(caption = "Ethanol Summary by Product") %>% kable_classic_2(full_width = F)
 
@@ -88,16 +87,14 @@ Productwise_Summary %>% kbl(caption = "Ethanol Summary by Product") %>% kable_cl
 
 ### **Regionwise Summary**
 ```{r,message=FALSE}
-Regionwise_Summary <- Main %>% group_by(REGION) %>% summarise(`Qty in M.Tons`= format(round(sum(`QTY. (MT)`),2),big.mark=",",digits=2,nsmall=2,scientific=FALSE),`Value in Mil.USD` = format(round(sum(`VALUE ($USD)`)/1000000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE),`Max.M.Ton Price` = round(max(`M.Ton Price`),2),`Min.M.Ton Price` = round(min(`M.Ton Price`),2),`Mean M.Ton Price` = round(mean(`M.Ton Price`),2)) %>% arrange(`Qty in M.Tons`)
+Regionwise_Summary <- Main %>% group_by(REGION) %>% summarise(`Qty in M.Tons`= format(round(sum(`QTY. (MT)`),2),big.mark=",",digits=2,nsmall=2,scientific=FALSE),`Value in Mil.USD` = format(round(sum(`VALUE ($USD)`)/1000000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE)) %>% arrange(`Qty in M.Tons`)
 Regionwise_Summary %>% kbl(caption = "Ethanol Summary by Region") %>% kable_classic_2(full_width = F)
 
 ```
 
 
 ```{r echo=FALSE,out.width='100%'}
-
 knitr::include_graphics('./img/logo_a.jpg')
-
 ```
 
 # 1. TREND ANALYSIS
