@@ -45,11 +45,20 @@ knitr::include_graphics('./img/logo.jpg')
 
 # MOTIVATION
 
-The report is developed to shed light on ethanol exports from Pakistan beginning year 2017.
+This report is computer generated. 
 
-Everything below is the result of **computations** performed on _Ethanol Exports Database_ by computer program and displayed in the form of tables and charts. Where _Microsoft Excel_ Dashboards have their weaknesses [See Here](https://app.box.com/s/cvj2myhp1u8j93u90c53wryhkrbpqqnu) and _Microsoft Access_ reports are limited to desktops [See Here](https://app.box.com/s/kz7aqgp8cvq4w44hsa1xbuys8q1iai7t),this method of reporting is not plagued by these weaknesses. Unlike Excel here the accuracy and consistency is guaranteed every time and reports can be constructed in an instant. With passing time I plan to make this more effective by adding some of my own insights to this and ensure that overall everything makes sense. 
+- Unlike Excel or any other point and click program here, consistency and accuracy of report is guaranteed no matter the size. Only within a fraction of time it takes on Excel, a very complicated analysis can be generated.
 
-All prices of ethanol are in US Dollar on per metric ton basis indicated as _M.Tons (Metric Tons)._
+- Everything below is the result of **computations** performed on _Ethanol Exports Database_ by computer program and displayed in the form of tables and charts.Any computer program can be used for the purpose.[Click here for a list of computer languages.](https://pypl.github.io/PYPL.html)
+
+- This method of reporting is not plagued by weaknesses of _Microsoft Excel_ and _Microsoft Access Dashboards._ 
+
+
+- All prices and value of ethanol are in _US Dollar on per metric ton basis indicated as M.Tons (Metric Tons)._ All quantities are in _Metric tons indicated as (M.Tons)._
+
+- [Click Here For Microsoft Excel Dashboard](https://app.box.com/s/fptugum4hq1ue8jqrle4bck3xm6db0xs)
+
+- [Click Here For Microsoft Access Dashboard](https://app.box.com/s/r1jdidzbvmo997n1ddtnla3n9scnea69)
 
 
 ### **Year Wise Summary**
@@ -65,8 +74,6 @@ Yearwise_Summary %>% kbl(caption = "Ethanol Summary Year Wise") %>% kable_classi
 Storagewise_Summary<- Main %>% group_by(`Storage Type`) %>% summarize('Qty in M.Ton'= format(round(sum(`QTY. (MT)`),2),big.mark=",",digits=2,nsmall=2,scientific=FALSE),'Value in Mil.USD' = format(round(sum(`VALUE ($USD)`)/1000000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE)) 
 Storagewise_Summary %>% kbl(caption = "Ethanol Summary by Mode of Shipment") %>% kable_classic_2(full_width = F)
 
-
-
 ```
 
 ### **Product Wise Summary**
@@ -76,7 +83,6 @@ Productwise_Summary <- Main %>% group_by(Product) %>% summarise(`Qty in M.Tons`=
                                                                 `Mean M.Ton Price` = (round(mean(`M.Ton Price`),2))) %>% arrange(`Qty in M.Tons`)
 
 Productwise_Summary %>% kbl(caption = "Ethanol Summary by Product") %>% kable_classic_2(full_width = F)
-
 
 ```
 
@@ -106,7 +112,7 @@ Yearwise_Summary %>% kbl(caption = "Yearwise Quantity in M.Ton (Thousands)") %>%
 
 ```
 
-**`a. Month wise Data`**
+**a. Month wise Data**
 ```{r,message=FALSE}
 Main_Qtywise <- Main %>% group_by(Year,Month) %>% summarise(Qty=format(round(sum(`QTY. (MT)`)/1000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
@@ -116,7 +122,7 @@ Main_Qtywise <- Main_Qtywise %>% pivot_wider(names_from = Year,values_from = Qty
 Main_Qtywise %>% kbl(caption = "Monthwise Quantity in M.Ton (Thousands)") %>% kable_classic_2(full_width = F)
 ```
 
-**`b. Month wise Trend`**
+**b. Month wise Trend**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Main_Qtywise <- Main %>% group_by(Year,Month) %>% summarise(Qty=round(sum(`QTY. (MT)`)/1000,2))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
@@ -131,7 +137,7 @@ p
 
 **II. Product wise Summary**
 
-**`a. Year wise Data`**
+**a. Year wise Data**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Productwise_Summary <- Main %>% group_by(Year,Product) %>% summarise(`Qty in M.Tons (Thousands)`= format(round(sum(`QTY. (MT)`)/1000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE)) %>% arrange(Year)
 Productwise_Summary <- Productwise_Summary %>% pivot_wider(names_from = Year,values_from = `Qty in M.Tons (Thousands)`)
@@ -139,18 +145,18 @@ Productwise_Summary %>% kbl(caption = "Quantity in M.Ton (Thousands)") %>% kable
 
 ```
 
-**`b. Month wise Data`**
+**b. Month wise Data**
 ```{r,message = FALSE}
 Productwise_Summary <- Main %>% group_by(Year,Month,Product) %>% summarise(`Qty in M.Tons (Thousands)`= format(round(sum(`QTY. (MT)`)/1000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE)) %>% arrange(`Qty in M.Tons (Thousands)`)
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
 Productwise_Summary$Month <- factor(Productwise_Summary$Month,levels=all_months)
 Productwise_Summary <- Productwise_Summary %>% arrange(desc(Year),desc(Month))
 Productwise_Summary <- Productwise_Summary %>% pivot_wider(names_from = Product,values_from = `Qty in M.Tons (Thousands)`)
-datatable(Productwise_Summary,options = list(pageLength=5))
+datatable(Productwise_Summary,options = list(pageLength=5),caption="Quantity in M.Ton(Thousands)")
 ```
 
 
-**`c. Month wise Trend`**
+**c. Month wise Trend**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Main_Qtywise_Product <- Main %>% group_by(Year,Month,Product) %>% summarise(Qty=round(sum(`QTY. (MT)`)/1000,2))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
@@ -164,7 +170,7 @@ p
 
 **III. Region wise Trend**
 
-**`a. Year wise Data`**
+**a. Year wise Data**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Regionwise_Summary <- Main %>% group_by(Year,REGION)%>% summarise(`Qty in M.Tons (Thousands)`=format(round(sum(`QTY. (MT)`)/1000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE)) %>% arrange(Year)
 Regionwise_Summary <- Regionwise_Summary %>% pivot_wider(names_from = Year,values_from = `Qty in M.Tons (Thousands)`)
@@ -173,19 +179,18 @@ Regionwise_Summary %>% kbl(caption = "Quantity in M.Ton (Thousands)") %>% kable_
 ```
 
 
-**`b. Month wise Data`**
+**b. Month wise Data**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Regionwise_Summary <- Main %>% group_by(Year,Month,REGION) %>% summarise(`Qty in M.Ton (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Ton (Thousands)`))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
 Regionwise_Summary$Month <- factor(Regionwise_Summary$Month,levels=all_months)
 Regionwise_Summary <- Regionwise_Summary %>% arrange(desc(Year),desc(Month))
 Regionwise_Summary <- Regionwise_Summary %>% pivot_wider(names_from = REGION,values_from = `Qty in M.Ton (Thousands)`)
-datatable(Regionwise_Summary,options = list(pageLength=5))
+datatable(Regionwise_Summary,options = list(pageLength=5),caption="Quantity in M.Ton (Thousands)")
 
 ```
 
-
-**`c. Month wise Trend`**
+**c. Month wise Trend**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Main_Qtywise_Region <- Main %>% group_by(Year,Month,REGION) %>% summarise(Qty=round(sum(`QTY. (MT)`)/1000,2))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
@@ -198,7 +203,7 @@ p
 
 **IV. Mode of Shipment** 
 
-**`a. Year wise Data`**
+**a. Year wise Data**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Storagewise_Summary <- Main %>% group_by(Year,`Storage Type`)%>% summarise(`Qty in M.Tons (Thousands)`=format(round(sum(`QTY. (MT)`)/1000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE)) %>% arrange(Year)
 Storagewise_Summary <- Storagewise_Summary %>% pivot_wider(names_from = Year,values_from = `Qty in M.Tons (Thousands)`)
@@ -206,17 +211,17 @@ Storagewise_Summary %>% kbl(caption = "Quantity in M.Ton (Thousands)") %>% kable
 
 ```
 
-**`b. Month wise Data`**
+**b. Month wise Data**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Storagewise_Summary <- Main %>% group_by(Year,Month,`Storage Type`) %>% summarise(`Qty in M.Ton (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Ton (Thousands)`))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
 Storagewise_Summary$Month <- factor(Storagewise_Summary$Month,levels=all_months)
 Storagewise_Summary <- Storagewise_Summary %>% arrange(desc(Year),desc(Month))
 Storagewise_Summary <- Storagewise_Summary %>% pivot_wider(names_from = `Storage Type`,values_from = `Qty in M.Ton (Thousands)`)
-datatable(Storagewise_Summary,options = list(pageLength=5))
+datatable(Storagewise_Summary,options = list(pageLength=5),caption="Quantity in M.Ton (Thousands)")
 ```
 
-**`c. Month wise Trend`**
+**c. Month wise Trend**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Main_Qtywise_StorageType <- Main %>% group_by(Year,Month,`Storage Type`) %>% summarise(Qty=round(sum(`QTY. (MT)`)/1000,2))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
@@ -238,7 +243,7 @@ Yearwise_Summary %>% kbl(caption = "Value in Million USD") %>% kable_classic_2(f
 
 ```
 
-**`a. Month wise Data`**
+**a. Month wise Data**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Main_Valuewise <- Main %>% group_by(Year,Month) %>% summarise(Value=round(sum(`VALUE ($USD)`)/1000000,2))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
@@ -249,7 +254,7 @@ Main_Valuewise %>% kbl(caption = "Monthwise Value in Million USD") %>% kable_cla
 
 ```
 
-**`b. Month wise Trend`**
+**b. Month wise Trend**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Main_Valuewise <- Main %>% group_by(Year,Month) %>% summarise(Value=round(sum(`VALUE ($USD)`)/1000000,2))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
@@ -265,7 +270,7 @@ p
 
 **II.Product Trend**
 
-**`a.Year wise Data`**
+**a. Year wise Data**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Productwise_Summary <- Main %>% group_by(Year,Product) %>% summarise(`Value in Mil.USD`= round(sum(`VALUE ($USD)`/1000000),2)) %>% arrange(Year,desc(`Value in Mil.USD`))
 Productwise_Summary <- Productwise_Summary %>% pivot_wider(names_from = Year,values_from = `Value in Mil.USD`) 
@@ -273,19 +278,18 @@ Productwise_Summary %>% kbl(caption = "Value in Million USD") %>% kable_classic_
 
 ```
 
-**`b.Month wise Data`**
+**b. Month wise Data**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Productwise_Summary <- Main %>% group_by(Year,Month,Product) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
 Productwise_Summary$Month <- factor(Productwise_Summary$Month,levels=all_months)
 Productwise_Summary <- Productwise_Summary %>% arrange(desc(Year),desc(Month))
 Productwise_Summary <- Productwise_Summary %>% pivot_wider(names_from = Product,values_from = Value)
-datatable(Productwise_Summary,options = list(pageLength=5)) 
+datatable(Productwise_Summary,options = list(pageLength=5),caption="Value in Million USD") 
 
 ```
 
-
-**`c.Month wise Trend`**
+**c. Month wise Trend**
 ```{r ,message=FALSE,fig.width=12,fig.height=8}
 Main_Valuewise_Product <- Main %>% group_by(Year,Month,Product) %>% summarise(Value=round(sum(`VALUE ($USD)`)/1000000,2))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
@@ -299,7 +303,7 @@ p
 
 **III. Regionwise Trend**
 
-**`a. Year wise Data`**
+**a. Year wise Data**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Regionwise_Summary <- Main %>% group_by(Year,REGION)%>% summarise(`Value in Mil.USD`=round(sum(`VALUE ($USD)`/1000000),2)) %>% arrange(Year,desc(`Value in Mil.USD`))
 Regionwise_Summary <- Regionwise_Summary %>% pivot_wider(names_from = Year,values_from = `Value in Mil.USD`)
@@ -308,19 +312,18 @@ Regionwise_Summary %>% kbl(caption = "Value in Million USD") %>% kable_classic_2
 
 ```
 
-**`b.Month wise Data`**
+**b. Month wise Data**
 ```{r,message = FALSE}
 Regionwise_Summary <- Main %>% group_by(Year,Month,REGION) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
 Regionwise_Summary$Month <- factor(Regionwise_Summary$Month,levels=all_months)
 Regionwise_Summary <- Regionwise_Summary %>% arrange(desc(Year),desc(Month))
 Regionwise_Summary <- Regionwise_Summary %>% pivot_wider(names_from = REGION,values_from = Value)
-datatable(Regionwise_Summary,options = list(pageLength=5))
+datatable(Regionwise_Summary,options = list(pageLength=5),caption="Value in Million USD")
 
 ```
 
-
-**`c.Month wise Trend`**
+**c. Month wise Trend**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Main_Valuewise_Region <- Main %>% group_by(Year,Month,REGION) %>% summarise(Value=round(sum(`VALUE ($USD)`)/1000000,2))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
@@ -334,24 +337,24 @@ p
 
 **IV. Mode of Shipment Trend**
 
-**`a. Year wise Data`**
+**a. Year wise Data**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Storagewise_Summary <- Main %>% group_by(Year,`Storage Type`)%>% summarise(`Value in Mil.USD`=round(sum(`VALUE ($USD)`/1000000),2)) %>% arrange(Year)
 Storagewise_Summary <- Storagewise_Summary %>% pivot_wider(names_from = Year,values_from = `Value in Mil.USD`)
 Storagewise_Summary %>% kbl(caption = "Value in Million USD") %>% kable_classic_2(full_width = F)
 ```
 
-**`b. Month wise Data`**
+**b. Month wise Data**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Storagewise_Summary <- Main %>% group_by(Year,Month,`Storage Type`) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
 Storagewise_Summary$Month <- factor(Storagewise_Summary$Month,levels=all_months)
 Storagewise_Summary <- Storagewise_Summary %>% arrange(desc(Year),desc(Month))
 Storagewise_Summary <- Storagewise_Summary %>% pivot_wider(names_from = `Storage Type`,values_from = Value)
-datatable(Storagewise_Summary,options = list(pageLength=5))
+datatable(Storagewise_Summary,options = list(pageLength=5),caption="Value in Million USD")
 ```
 
-**`c. Month wise Trend`**
+**c. Month wise Trend**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Main_Valuewise_StorageType <- Main %>% group_by(Year,Month,`Storage Type`) %>% summarise(Value=round(sum(`VALUE ($USD)`)/1000000,2))
 all_months = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
@@ -362,7 +365,6 @@ p <- p + theme(legend.position = "",plot.title= element_text(hjust=0.5),axis.tex
 p
 
 ```
-
 
 
 ### **Summary**
@@ -385,15 +387,6 @@ Count_Product <- Main %>% group_by(Product) %>% summarise(Quantity=sum(`QTY. (MT
 kable(Count_Product[1,1])
 ```
 
-
-* `The major contribution of export is from:` 
-```{r, message=FALSE,fig.width=12,fig.height=8}
-Count_Regions <- Main %>% group_by(REGION) %>% summarise(Quantity=sum(`QTY. (MT)`)) %>% arrange(desc(Quantity))
-kable(Count_Regions[1,1])
-#kbl (Count_Regions[1,1]) %>% kable_classic_2(full_width = F)
-
-```
-
 * `Among all regions in the world following has some of the highest prices overall`
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Highest_Prices <- Main %>% group_by(REGION) %>% summarise(Maximum_Price = max(`M.Ton Price`)) %>% arrange(desc(Maximum_Price))
@@ -405,7 +398,7 @@ kable(Highest_Prices[1,1])
 
 ### **Quantitywise Trends**
 
-**`a.Yearwise Summary`**
+**a. Yearwise Summary**
 ```{r ,message=FALSE,fig.width=12,fig.height=8}
 Year <- as.factor(Main$Year)
 Qty_in_MTon <- Main %>% group_by(Year,Product) %>% summarise(`Qty in M.Ton` = format(round(sum(`M.Ton Price`)/1000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE)) %>% arrange(desc(Year),`Qty in M.Ton`)
@@ -415,7 +408,7 @@ Qty_in_MTon  <- Qty_in_MTon %>% pivot_wider(names_from = Year, values_from = `Qt
 Qty_in_MTon %>% kbl(caption = "Quantity in Thousand M.Ton") %>% kable_classic_2(full_width = F)
 ```
 
-**`b.Productwise Summary`**
+**b. Productwise Summary**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Productwise_Summary <- Main %>% group_by(Product,REGION) %>% summarise(`Qty in M.Ton (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Ton (Thousands)`))
 Productwise_Summary <- Productwise_Summary %>% pivot_wider(names_from = REGION,values_from = `Qty in M.Ton (Thousands)`)
@@ -423,7 +416,7 @@ Productwise_Summary %>% kbl(caption = "Qty in M.Ton (Thousands)") %>% kable_clas
 
 ```
 
-**`c.Storage Type Summary`**
+**c. Storage Type Summary**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Productwise_Summary <- Main %>% group_by(Product,`Storage Type`) %>% summarise(`Qty in M.Ton (Thousands)`= format(round(sum(`QTY. (MT)`)/1000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE)) %>% arrange(`Qty in M.Ton (Thousands)`)
 Productwise_Summary <- Productwise_Summary %>% pivot_wider(names_from = `Storage Type`,values_from = `Qty in M.Ton (Thousands)`)
@@ -431,7 +424,7 @@ Productwise_Summary %>% kbl(caption = "Qty in M.Ton (Thousands)") %>% kable_clas
 
 ```
 
-**`d.Exporter Summary`**
+**d. Exporter Summary**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Productwise_Summary <- Main %>% group_by(Product,EXPORTER) %>% summarise(`Qty in M.Ton (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Ton (Thousands)`))
 Productwise_Summary <- Productwise_Summary %>% pivot_wider(names_from = Product,values_from = `Qty in M.Ton (Thousands)`)
@@ -439,17 +432,17 @@ Productwise_Summary %>% kbl(caption = "Qty in M.Ton (Thousands)") %>% kable_clas
 
 ```
 
-**`e.Importer Summary`**
+**e. Importer Summary**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Productwise_Summary <- Main %>% group_by(Product,IMPORTER) %>% summarise(`Qty in M.Ton (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Ton (Thousands)`))
 Productwise_Summary <- Productwise_Summary %>% pivot_wider(names_from = Product,values_from = `Qty in M.Ton (Thousands)`)
-datatable(Productwise_Summary)
+datatable(Productwise_Summary,options = list(pageLength=5),caption="Quantity in M.Ton")
 ```
 
 
 ### **Valuewise Trends**
 
-**`a. Year wise Summary`**
+**a. Year wise Summary**
 ```{r, message=FALSE}
 Year <- as.factor(Main$Year)
 Values_in_Mil_USD <- Main %>% group_by(Year,Product) %>% summarise(`Value in Mil.USD` = round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Year),desc(`Value in Mil.USD`))
@@ -459,32 +452,32 @@ Values_in_Mil_USD %>% kbl(caption = "Value in Million USD") %>% kable_classic_2(
 
 ```
 
-**`b. Product wise Summary`**
+**b. Product wise Summary**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Productwise_Summary <- Main %>% group_by(Product,REGION) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
 Productwise_Summary <- Productwise_Summary %>% pivot_wider(names_from = REGION,values_from = Value)
 Productwise_Summary %>% kbl(caption = "Value in Million USD") %>% kable_classic_2(full_width = F)
 ```
 
-**`c. Storage Type Summary`**
+**c. Storage Type Summary**
 ```{r ,message=FALSE,fig.width=12,fig.height=8}
 Productwise_Summary <- Main %>% group_by(Product,`Storage Type`) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
 Productwise_Summary <- Productwise_Summary %>% pivot_wider(names_from = `Storage Type`,values_from = Value)
 Productwise_Summary %>% kbl(caption = "Value in Million USD") %>% kable_classic_2(full_width = F)
 ```
 
-**`d. Exporter Summary`**
+**d. Exporter Summary`**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Productwise_Summary <- Main %>% group_by(Product,EXPORTER) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
 Productwise_Summary <- Productwise_Summary %>% pivot_wider(names_from = Product,values_from = Value)
 Productwise_Summary %>% kbl(caption = "Value in Million USD") %>% kable_classic_2(full_width = F)
 ```
 
-**`e. Importer Summary`**
+**e. Importer Summary**
 ```{r ,message=FALSE,fig.width=12,fig.height=8}
 Productwise_Summary <- Main %>% group_by(Product,IMPORTER) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
 Productwise_Summary <- Productwise_Summary %>% pivot_wider(names_from = Product,values_from = Value)
-datatable(Productwise_Summary,options = list(pageLength=5))
+datatable(Productwise_Summary,options = list(pageLength=5),caption="Value in Million USD")
 ```
 
 
@@ -502,7 +495,6 @@ p
 
 # 3. ANALYSIS BY REGION
 
-
 * `Highest volumes of exports went to: `
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Highest_Quantity_Country <- Main %>% group_by(COUNTRY) %>% summarise(Quantity = sum(`QTY. (MT)`)) %>% arrange(desc(Quantity))
@@ -512,10 +504,16 @@ kable(Highest_Quantity_Country[1,1])
 
 ```
 
-
 ### **Quantitywise Trends**
 
-**`a. Year wise Summary`**
+* `By Quantity following has major contribution`
+```{r,message=FALSE}
+Region_Investigate<- Main %>% group_by(REGION) %>% summarise(Qty=sum(`QTY. (MT)`)) %>% arrange(desc(Qty))
+kable(Region_Investigate[1,1])
+```
+
+
+**a. Year wise Summary**
 ```{r ,message=FALSE,fig.width=12,fig.height=8}
 Year <- as.factor(Main$Year)
 Qty_in_MTon <- Main %>% group_by(Year,REGION) %>% summarise(`Qty in M.Ton` = round(sum(`M.Ton Price`)/1000,2)) %>% arrange(desc(Year),desc(`Qty in M.Ton`))
@@ -526,7 +524,7 @@ Qty_in_MTon %>% kbl(caption = "Quantity in Thousand M.Ton") %>% kable_classic_2(
 
 ```
 
-**`b. Productwise Summary`**
+**b. Productwise Summary**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Year <- as.factor(Main$Year)
 Qty_in_MTon <- Main %>% group_by(Product,REGION) %>% summarise(`Qty in M.Ton` = format(round(sum(`M.Ton Price`)/1000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE)) %>% arrange(desc(`Qty in M.Ton`))
@@ -536,7 +534,7 @@ Qty_in_MTon %>% kbl(caption = "Quantity in Thousand M.Ton") %>% kable_classic_2(
 
 ```
 
-**`c. Storage Type Summary`**
+**c. Storage Type Summary**
 ```{r ,message=FALSE,fig.width=12,fig.height=8}
 Year <- as.factor(Main$Year)
 Qty_in_MTon <- Main %>% group_by(`Storage Type`,REGION) %>% summarise(`Qty in M.Ton` = format(round(sum(`M.Ton Price`)/1000,2),big.mark=",",digits=2,nsmall=2,scientific=FALSE)) %>% arrange(desc(`Qty in M.Ton`))
@@ -544,8 +542,7 @@ Qty_in_MTon  <- Qty_in_MTon %>% pivot_wider(names_from = `Storage Type` , values
 Qty_in_MTon %>% kbl(caption = "Quantity in Thousand M.Ton") %>% kable_classic_2(full_width = F)
 ```
 
-
-**`d. Exporter Summary`**
+**d. Exporter Summary**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Year <- as.factor(Main$Year)
 Qty_in_MTon <- Main %>% group_by(EXPORTER,REGION) %>% summarise(`Qty in M.Ton` = round(sum(`M.Ton Price`)/1000,2)) %>% arrange(desc(`Qty in M.Ton`))
@@ -555,30 +552,36 @@ Qty_in_MTon %>% kbl(caption = "Quantity in Thousand M.Ton") %>% kable_classic_2(
 ```
 
 
-**`e. Importer Summary`**
+**e. Importer Summary**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Year <- as.factor(Main$Year)
 Qty_in_MTon <- Main %>% group_by(IMPORTER,REGION) %>% summarise(`Qty in M.Ton` = round(sum(`M.Ton Price`)/1000,2)) %>% arrange(desc(`Qty in M.Ton`))
                                                            
 Qty_in_MTon  <- Qty_in_MTon %>% pivot_wider(names_from = REGION, values_from = `Qty in M.Ton`)
-datatable(Qty_in_MTon,options = list(pageLength=5))
+datatable(Qty_in_MTon,options = list(pageLength=5),caption="Quantity in M.Ton (Thousands)")
 ```
 
 
 ### **Valuewise Trends**
 
-**`a.Year wise Summary`**
+* `By Value following has major contribution`
+```{r,message=FALSE}
+Region_Investigate<- Main %>% group_by(REGION) %>% summarise(Value=sum(`VALUE ($USD)`)) %>% arrange(desc(Value))
+kable(Region_Investigate[1,1])
+```
+
+
+**a. Year wise Summary**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Year <- as.factor(Main$Year)
 Values_in_Mil_USD <- Main %>% group_by(Year,REGION) %>% summarise(`Value in Mil.USD` = round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Year),desc(`Value in Mil.USD`))
 Values_in_Mil_USD <- Values_in_Mil_USD %>% pivot_wider(names_from = Year, values_from = `Value in Mil.USD`)
 
-Values_in_Mil_USD %>% kbl(caption = "Value in Mil. USD") %>% kable_classic_2(full_width = F)
+Values_in_Mil_USD %>% kbl(caption = "Value in Million USD") %>% kable_classic_2(full_width = F)
 
 ```
 
-
-**`b.Product wise Summary`**
+**b. Product wise Summary**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Year <- as.factor(Main$Year)
 Value_in_Mil_USD <- Main %>% group_by(Product,REGION) %>% summarise(Value = round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
@@ -586,7 +589,7 @@ Value_in_Mil_USD  <- Value_in_Mil_USD %>% pivot_wider(names_from = Product, valu
 Values_in_Mil_USD %>% kbl(caption = "Value in Million USD") %>% kable_classic_2(full_width = F)
 ```
 
-**`c.Storage Type Summary`**
+**c. Storage Type Summary**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Year <- as.factor(Main$Year)
 Value_in_Mil_USD <- Main %>% group_by(`Storage Type`,REGION) %>% summarise(Value = round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
@@ -595,7 +598,7 @@ Value_in_Mil_USD  <- Value_in_Mil_USD %>% pivot_wider(names_from = REGION , valu
 Value_in_Mil_USD %>% kbl(caption = "Value in Million USD") %>% kable_classic_2(full_width = F)
 ```
 
-**`d.Exporter Type Summary`**
+**d. Exporter Type Summary**
 ```{r, message=FALSE,fig.width=12,fig.height=8}
 Year <- as.factor(Main$Year)
 Value_in_Mil_USD <- Main %>% group_by(EXPORTER,REGION) %>% summarise(Value = round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
@@ -605,13 +608,13 @@ Value_in_Mil_USD %>% kbl(caption = "Value in Million USD") %>% kable_classic_2(f
 
 ```
 
-**`e.Importer Type Summary`**
+**e. Importer Type Summary**
 ```{r message=FALSE,fig.width=12,fig.height=8}
 Year <- as.factor(Main$Year)
 Value_in_Mil_USD <- Main %>% group_by(IMPORTER,REGION) %>% summarise(Value = round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
                                                            
 Value_in_Mil_USD  <- Value_in_Mil_USD %>% pivot_wider(names_from = REGION , values_from = Value)
-datatable(Value_in_Mil_USD,options = list(pageLength=5))
+datatable(Value_in_Mil_USD,options = list(pageLength=5),caption = "Value in Million USD")
 ```
 
 
@@ -642,47 +645,71 @@ kable(Country_Count)
 ```
 
 
-### **QUANTITYWISE TRENDS**
+### **Quantitywise Trends**
 
-**`a.Year Wise Summary`**
+* `By Quantity following has major contribution`
+```{r,message=FALSE}
+Country_Investigate<- Main %>% group_by(COUNTRY) %>% summarise(Qty=sum(`QTY. (MT)`)) %>% arrange(desc(Qty))
+kable(Country_Investigate[1,1])
+```
+
+**a. Year Wise Summary**
 ```{r,message=FALSE}
 Countrywise_Summary <- Main %>% group_by(Year,COUNTRY) %>% summarise(`Qty in M.Ton (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Ton (Thousands)`))
 Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = Year,values_from = `Qty in M.Ton (Thousands)` )
-datatable(Countrywise_Summary,options = list(pageLength=5))
+datatable(Countrywise_Summary,options = list(pageLength=5),caption="Quantity in M.Ton (Thousands)")
 
 ```
-**`b.Product Wise Summary`**
+**b. Product Wise Summary**
 ```{r,message=FALSE}
 Countrywise_Summary <- Main %>% group_by(Product,COUNTRY) %>% summarise(`Qty in M.Ton (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Ton (Thousands)`))
 Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = Product,values_from = `Qty in M.Ton (Thousands)` )
-datatable(Countrywise_Summary,options = list(pageLength=5))
+datatable(Countrywise_Summary,options = list(pageLength=5),caption="Quantity in M.Ton (Thousands)")
 ```
-**c.Storage Type Wise**
+**c. Storage Type Wise**
 ```{r,message=FALSE}
 Countrywise_Summary <- Main %>% group_by(`Storage Type`,COUNTRY) %>% summarise(`Qty in M.Ton (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Ton (Thousands)`))
 Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = `Storage Type` ,values_from = `Qty in M.Ton (Thousands)` )
-datatable(Countrywise_Summary,options = list(pageLength=5))
+datatable(Countrywise_Summary,options = list(pageLength=5),caption="Quantity in M.Ton (Thousands)")
 ```
-
+**c. Region Wise Summary**
+```{r,message=FALSE}
+Countrywise_Summary <- Main %>% group_by(REGION,COUNTRY) %>% summarise(`Qty in M.Ton (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Ton (Thousands)`))
+Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = REGION,values_from = `Qty in M.Ton (Thousands)` )
+datatable(Countrywise_Summary,options = list(pageLength=5),caption="Quantity in M.Ton (Thousands)")
+```
 
 ### **Valuewise Trends**
 
-**`a.Year Wise Summary`**
+* `By Value following has major contribution`
+```{r,message=FALSE}
+Country_Investigate<- Main %>% group_by(COUNTRY) %>% summarise(value=sum(`VALUE ($USD)`)) %>% arrange(desc(value))
+kable(Country_Investigate[1,1])
+```
+
+
+**a. Year Wise Summary**
 ```{r,message=FALSE}
 Countrywise_Summary <- Main %>% group_by(Year,COUNTRY) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
 Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = Year,values_from = Value )
 datatable(Countrywise_Summary,options = list(pageLength=5),caption="Value in Million USD")
 ```
-**`b.Product Wise Summary`**
+**b. Product Wise Summary**
 ```{r,message=FALSE}
 Countrywise_Summary <- Main %>% group_by(Product,COUNTRY) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
 Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = Product,values_from = Value )
 datatable(Countrywise_Summary,options = list(pageLength=5),caption="Value in Million USD")
 ```
-**`c.Storage Type Wise Summary`**
+**c. Storage Type Wise Summary**
 ```{r,message=FALSE}
 Countrywise_Summary <- Main %>% group_by(`Storage Type`,COUNTRY) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
 Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = `Storage Type` ,values_from = Value )
+datatable(Countrywise_Summary,options = list(pageLength=5),caption="Value in Million USD")
+```
+**d. Region Wise Summary**
+```{r,message= FALSE}
+Countrywise_Summary <- Main %>% group_by(REGION,COUNTRY) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
+Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = REGION ,values_from = Value )
 datatable(Countrywise_Summary,options = list(pageLength=5),caption="Value in Million USD")
 ```
 
@@ -715,22 +742,28 @@ kable(Exporter_Count)
 
 
 ### **Quantitywise Trends**
+* `By Quantity following has major contribution`
+```{r,message=FALSE}
+Exporter_Investigate<- Main %>% group_by(EXPORTER) %>% summarise(Qty=sum(`QTY. (MT)`)) %>% arrange(desc(Qty))
+kable(Exporter_Investigate[1,1])
+```
 
-**`a.Year wise Summary`**
+
+**a. Year wise Summary**
 ```{r,message=FALSE}
 Main_Qtywise_ExporterType <- Main %>% group_by(Year,EXPORTER)%>% summarise(`Qty in M.Ton`=round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(Year)
 Main_Qtywise_ExporterType <- Main_Qtywise_ExporterType %>% pivot_wider(names_from = Year,values_from =`Qty in M.Ton` )
 Main_Qtywise_ExporterType %>% kbl(caption = "Ethanol Summary by Exporter") %>% kable_classic_2(full_width = F)
 ```
 
-**`b.Product Wise Summary`**
+**b. Product Wise Summary**
 ```{r,message=FALSE}
 Main_Qtywise_ExporterType <- Main %>% group_by(Product,EXPORTER)%>% summarise(`Qty in M.Ton`=round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Ton`))
 Main_Qtywise_ExporterType <- Main_Qtywise_ExporterType %>% pivot_wider(names_from = Product,values_from =`Qty in M.Ton` )
 Main_Qtywise_ExporterType %>% kbl(caption = "Ethanol Summary by Exporter") %>% kable_classic_2(full_width = F)
 ```
 
-**`c.Mode of Shipment Summary`**
+**c. Mode of Shipment Summary**
 ```{r,message= FALSE}
 Main_Qtywise_ExporterType <- Main %>% group_by(`Storage Type`,EXPORTER)%>% summarise(`Qty in M.Ton`=round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Ton`))
 Main_Qtywise_ExporterType <- Main_Qtywise_ExporterType %>% pivot_wider(names_from = `Storage Type`,values_from =`Qty in M.Ton` )
@@ -738,19 +771,26 @@ Main_Qtywise_ExporterType %>% kbl(caption = "Ethanol Summary by Exporter") %>% k
 ```
 
 ### **Valuewise Trends**
-**`a.Year wise Summary`**
+
+* `By Value following has major contribution`
+```{r,message=FALSE}
+Exporter_Investigate<- Main %>% group_by(EXPORTER) %>% summarise(Value=sum(`VALUE ($USD)`)) %>% arrange(desc(Value))
+kable(Exporter_Investigate[1,1])
+```
+
+**a. Year wise Summary**
 ```{r,message=FALSE}
 Main_Valuewise_ExporterType <- Main %>% group_by(Year,EXPORTER)%>% summarise(Value=round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(Year)
 Main_Valuewise_ExporterType <- Main_Valuewise_ExporterType %>% pivot_wider(names_from = Year,values_from = Value )
 Main_Valuewise_ExporterType %>% kbl(caption = "Ethanol Summary by Exporter") %>% kable_classic_2(full_width = F)
 ```
-**`b.Product wise Summary`**
+**b. Product wise Summary**
 ```{r,message=FALSE}
 Main_Valuewise_ExporterType <- Main %>% group_by(Product,EXPORTER)%>% summarise(Value=round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
 Main_Valuewise_ExporterType <- Main_Valuewise_ExporterType %>% pivot_wider(names_from = Product,values_from = Value )
 Main_Valuewise_ExporterType %>% kbl(caption = "Ethanol Summary by Exporter") %>% kable_classic_2(full_width = F)
 ```
-**`c.Storage Type Wise`**
+**c. Storage Type Wise**
 ```{r,message=FALSE}
 Main_Valuewise_ExporterType <- Main %>% group_by(`Storage Type`,EXPORTER)%>% summarise(Value=round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(desc(Value))
 Main_Valuewise_ExporterType <- Main_Valuewise_ExporterType %>% pivot_wider(names_from = `Storage Type` ,values_from = Value )
@@ -760,19 +800,6 @@ Main_Valuewise_ExporterType %>% kbl(caption = "Ethanol Summary by Exporter") %>%
 
 The plot below indicates price ranges of `Exporters` over years.
 [For Price Outlier Details Click Here](https://engromersharif.github.io/exporterwise/)
-```{r fig.align='left',fig.width=11,fig.height=9}
-Main_mod <- Main %>% filter(EXPORTER != "SGS PAKISTAN (PVT) LTD")
-EXPORTER <- as.factor(Main_mod$EXPORTER) 
-p <- ggplot(data=Main_mod,aes(x=reorder(EXPORTER,`M.Ton Price`) , y= `M.Ton Price`)) 
-p <- p + geom_boxplot(aes(colour=EXPORTER)) + coord_flip()
-p <- p + guides(fill="none")
-p <- p + theme(legend.position = "")
-p <- p + theme(plot.title = element_text(hjust=0.5),legend.position = "") + labs(x="",y="",title="EXPORTER WISE ETHANOL PRICE PER METRIC TON TREND YEAR 2017-2021")
-p <- p + scale_fill_viridis_d() 
-p <- p + facet_grid(.~Year,scales = "free") 
-p
-```
-
 
 # 6. IMPORTER WISE ANALYSIS
 
@@ -786,9 +813,79 @@ kable(Importer_Count)
 #Importer_Count %>% kbl (caption = "") %>% kable_classic_2(full_width = F)
 ```
 
+### **Quantitywise Trends**
+* `By Quantity following has major contribution`
+```{r,message=FALSE}
+Importer_Investigate<- Main %>% group_by(IMPORTER) %>% summarise(Quantity=sum(`QTY. (MT)`)) %>% arrange(desc(Quantity))
+kable(Importer_Investigate[1,1])
+```
+
+**a. Year wise Summary**
+```{r,message=FALSE}
+Importerwise_Summary <- Main %>% group_by(Year,IMPORTER) %>% summarise(`Qty in M.Tons (Thousands)`= round(sum(`QTY. (MT)`)/1000,2),.groups = 'drop') %>% arrange(Year,desc(`Qty in M.Tons (Thousands)`))
+Importerwise_Summary <- Importerwise_Summary %>% pivot_wider(names_from = Year,values_from = `Qty in M.Tons (Thousands)`) 
+datatable(Importerwise_Summary,options = list(pageLength=5),caption="Quantity in M.Tons(Thousands)")
+```
+
+**b. Product wise Summary**
+```{r,message=FALSE}
+Importerwise_Summary <- Main %>% group_by(Product,IMPORTER) %>% summarise(`Qty in M.Tons (Thousands)`= round(sum(`QTY. (MT)`)/1000,2),.groups = 'drop') %>% arrange(desc(`Qty in M.Tons (Thousands)`))
+Importerwise_Summary <- Importerwise_Summary %>% pivot_wider(names_from = Product,values_from = `Qty in M.Tons (Thousands)`)
+datatable(Importerwise_Summary,options = list(pageLength=5),caption="Quantity in M.Tons(Thousands)")
+```
+
+**c. Storage wise Summary**
+```{r, message=FALSE}
+Importerwise_Summary <- Main %>% group_by(`Storage Type`,IMPORTER) %>% summarise(`Qty in M.Tons (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Tons (Thousands)`))
+Importerwise_Summary <- Importerwise_Summary %>% pivot_wider(names_from =`Storage Type`,values_from = `Qty in M.Tons (Thousands)`)
+datatable(Importerwise_Summary,options = list(pageLength=5),caption="Quantity in M.Tons(Thousands)")
+```
+**d. Region wise Summary**
+```{r,message=FALSE}
+Importerwise_Summary <- Main %>% group_by(REGION,IMPORTER) %>% summarise(`Qty in M.Tons (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(desc(`Qty in M.Tons (Thousands)`))
+Importerwise_Summary <- Importerwise_Summary %>% pivot_wider(names_from = REGION,values_from = `Qty in M.Tons (Thousands)`)
+datatable(Importerwise_Summary,options = list(pageLength=5),caption="Quantity in M.Tons(Thousands)")
+
+```
+
+### **Valuewise Trends**
+
+* `By Value following has major contribution`
+```{r,message=FALSE}
+Importer_Investigate<- Main %>% group_by(IMPORTER) %>% summarise(Value=sum(`VALUE ($USD)`)) %>% arrange(desc(Value))
+kable(Importer_Investigate[1,1])
+```
+
+**a. Year wise Summary**
+```{r,message=FALSE}
+Importerwise_Summary <- Main %>% group_by(Year,IMPORTER) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2),.groups = 'drop') %>% arrange(Year,desc(Value))
+Importerwise_Summary <- Importerwise_Summary %>% pivot_wider(names_from = Year,values_from = Value) 
+datatable(Importerwise_Summary,options = list(pageLength=5),caption="Value in Million USD")
+```
+**b. Product wise Summary**
+```{r,message=FALSE}
+Importerwise_Summary <- Main %>% group_by(Product,IMPORTER) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2),.groups = 'drop') %>% arrange(desc(Value))
+Importerwise_Summary <- Importerwise_Summary %>% pivot_wider(names_from = Product,values_from = Value) 
+datatable(Importerwise_Summary,options = list(pageLength=5),caption="Value in Million USD")
+```
+**c. Storage wise Summary**
+```{r,message=FALSE}
+Importerwise_Summary <- Main %>% group_by(`Storage Type`,IMPORTER) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2),.groups = 'drop') %>% arrange(desc(Value))
+Importerwise_Summary <- Importerwise_Summary %>% pivot_wider(names_from = `Storage Type`,values_from = Value) 
+datatable(Importerwise_Summary,options = list(pageLength=5),caption="Value in Million USD")
+```
+**d. Region wise Summary**
+```{r,message=FALSE}
+Importerwise_Summary <- Main %>% group_by(REGION,IMPORTER) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2),.groups = 'drop') %>% arrange(desc(Value))
+Importerwise_Summary <- Importerwise_Summary %>% pivot_wider(names_from = REGION,values_from = Value) 
+datatable(Importerwise_Summary,options = list(pageLength=5),caption="Value in Million USD")
+```
+
+
 
 ### **Importerwise Summary**
-```{r}
+
+```{r,message=FALSE}
 Main <- as_tibble(Main)
 
 Total <- Main %>% tally() %>% as.numeric()
