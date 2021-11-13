@@ -6,7 +6,7 @@ knit: (function(input_file, encoding) {
  encoding=encoding,
  output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 author: "Omer Sharif"
-date: "10/18/2021"
+date: "11/13/2021"
 output: 
  rmarkdown::html_document:
   theme: journal
@@ -15,6 +15,7 @@ output:
   highlight: tango
   number_sections: false
   
+ 
 ---
 
 ```{r setup, include=FALSE}
@@ -32,7 +33,7 @@ library(kableExtra)
 library(scales)
 library(DT)
 # Induct Ethanol Excel Sheet - Main
-Main <- read_excel("C:/Users/omer.sharif/Desktop/Office Computer/Capstone/R Codes/Ethanol Dashboard/Aug 2021/Main.xlsm")
+Main <- read_excel("C:/Users/omer.sharif/Desktop/Office Computer/Capstone/R Codes/Ethanol Dashboard/Oct 2021/Main.xlsm")
 
 ```
 
@@ -699,7 +700,7 @@ kable(Country_Investigate[1,1])
 ```
 
 **a. Year Wise Summary**
-```{r,message=FALSE}
+```{r,message=FALSE,warning=FALSE}
 Countrywise_Summary <- Main %>% filter(Year==c("2018","2019","2020","2021"))
 Countrywise_Summary <- Countrywise_Summary %>% group_by(Year,COUNTRY) %>% summarise(`Qty in M.Ton (Thousands)`= round(sum(`QTY. (MT)`)/1000,2)) %>% arrange(Year,desc(`Qty in M.Ton (Thousands)`))
 Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = Year,values_from = `Qty in M.Ton (Thousands)` )
@@ -745,7 +746,7 @@ kable(Country_Investigate[1,1])
 
 
 **a. Year Wise Summary**
-```{r,message=FALSE}
+```{r,message=FALSE,warning=FALSE}
 Countrywise_Summary <- Main %>% filter(Year==c("2018","2019","2020","2021"))
 Countrywise_Summary <- Countrywise_Summary %>% group_by(Year,COUNTRY) %>% summarise(Value= round(sum(`VALUE ($USD)`)/1000000,2)) %>% arrange(Year,desc(Value))
 Countrywise_Summary <- Countrywise_Summary %>% pivot_wider(names_from = Year,values_from = Value )
