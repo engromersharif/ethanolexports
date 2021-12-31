@@ -33,7 +33,8 @@ library(kableExtra)
 library(scales)
 library(DT)
 # Induct Ethanol Excel Sheet - Main
-Main <- read_excel("C:/Users/omer.sharif/Desktop/Office Computer/Capstone/R Codes/Ethanol Dashboard/Oct 2021/Main.xlsm")
+Main <- read_excel("Main.xlsm")
+
 
 ```
 
