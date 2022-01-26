@@ -1,5 +1,5 @@
 ---
-title: ETHANOL EXPORTS MANAGEMENT REPORT
+title: ETHANOL EXPORTS
 knit: (function(input_file, encoding) {
   out_dir <- 'e6427457497fe0f4f93a7334d2203b8e17ee82df';
   rmarkdown::render(input_file,
@@ -7,15 +7,7 @@ knit: (function(input_file, encoding) {
  output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 author: "OS"
 date: "Dec-2021"
-output: 
- rmarkdown::html_document:
-  theme: journal
-  toc: true
-  toc_float: true
-  highlight: tango
-  number_sections: false
-  
- 
+output: rmdformats::material
 ---
 
 ```{r setup, include=FALSE}
