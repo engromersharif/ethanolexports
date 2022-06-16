@@ -7,7 +7,7 @@ knit: (function(input_file, encoding) {
  output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 author: "OS"
 date: "Jan-2022"
-output: rmdformats::material
+output: rmdformats::readthedown
 ---
 
 ```{r setup, include=FALSE}
